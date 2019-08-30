@@ -22,12 +22,23 @@ const DefaultLayout = ({ data, children, bodyClass, isHome }) => {
     const site = data.allGhostSettings.edges[0].node
     const twitterUrl = site.twitter ? `https://twitter.com/${site.twitter.replace(/^@/, ``)}` : null
     const facebookUrl = site.facebook ? `https://www.facebook.com/${site.facebook.replace(/^\//, ``)}` : null
-
+    
+    React.useEffect(() => {
+      if (window && window.netlifyIdentity) {
+        window.netlifyIdentity.on("init", user => {
+          if (!user) {
+            window.netlifyIdentity.on("login", () => {
+              document.location.href = "/admin/"
+            })
+          }
+        })
+      }
+    }, [])
     return (
-    <>
         <Helmet>
             <html lang={site.lang} />
             <style type="text/css">{`${site.codeinjection_styles}`}</style>
+            <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
             <body className={bodyClass} />
         </Helmet>
 
