@@ -35,6 +35,7 @@ const DefaultLayout = ({ data, children, bodyClass, isHome }) => {
       }
     }, [])
     return (
+      <>
         <Helmet>
             <html lang={site.lang} />
             <style type="text/css">{`${site.codeinjection_styles}`}</style>
